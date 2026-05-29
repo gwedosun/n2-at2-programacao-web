@@ -1,0 +1,33 @@
+{
+  "name": "n2-at2-prog-web",
+  "version": "1.0.0",
+  "description": "projeto avaliativo de programação web; gerenciamento de biblioteca.",
+  "keywords": [
+    "node",
+    "js",
+    "javascript",
+    "api",
+    "crud",
+    "programacao",
+    "web"
+  ],
+  "homepage": "https://github.com/gwedosun/n2-at2-programacao-web#readme",
+  "bugs": {
+    "url": "https://github.com/gwedosun/n2-at2-programacao-web/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gwedosun/n2-at2-programacao-web.git"
+  },
+  "license": "ISC",
+  "author": "gwedosun",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql": "^2.18.1"
+  }
+}

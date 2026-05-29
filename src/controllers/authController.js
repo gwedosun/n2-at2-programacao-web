@@ -1,0 +1,54 @@
+const db = require('../config/database');
+
+const registrar = async (req, res) => {
+    const { nome, email, senha, perfil } = req.body;
+
+    if (!nome || !email || !senha || !perfil) {
+        return res.status(400).json({ erro: 'Todos os campos são obrigatórios.' });
+    }
+    if (!['bibliotecario', 'leitor'].includes(perfil)) {
+        return res.status(400).json({ erro: 'Perfil inválido.' });
+    }
+
+    try {
+        const [resultado] = await db.execute(
+            'INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?, ?, ?, ?)',
+            [nome, email, senha, perfil]
+        );
+
+        res.status(201).json({ id: resultado.insertId });
+    } catch (err) {
+        const status = err.code === 'ER_DUP_ENTRY' ? 409 : 500;
+        const mensagem = status === 409 ? 'E-mail já cadastrado.' : 'Erro ao registrar usuário.';
+        res.status(status).json({ erro: mensagem });
+    }
+};
+
+const login = async (req, res) => {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+        return res.status(400).json({ erro: 'Todos os campos são obrigatórios.' });
+    }
+
+    try {
+        const [rows] = await db.execute(
+            'SELECT id, nome, perfil, senha FROM usuarios WHERE email = ?',
+            [email]
+        );
+
+        if (rows.length === 0 || senha !== rows[0].senha) {
+            return res.status(401).json({ erro: 'Email ou senha inválidos.' });
+        }
+
+        const usuario = rows[0];
+        res.json({ id: usuario.id, perfil: usuario.perfil });
+    } catch (err) {
+        res.status(500).json({ erro: 'Erro ao fazer login.' });
+    }
+};
+
+module.exports = {
+    registrar,
+    login
+};
