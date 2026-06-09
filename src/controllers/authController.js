@@ -1,4 +1,5 @@
 const db = require('../config/database');
+const bcrypt = require('bcrypt');
 
 const registrar = async (req, res) => {
     const { nome, email, senha, perfil } = req.body;
@@ -11,12 +12,14 @@ const registrar = async (req, res) => {
     }
 
     try {
+        const saltRounds = 10;
+        const senhaCript = await bcrypt.hash(senha, saltRounds);
+
         const [resultado] = await db.execute(
             'INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?, ?, ?, ?)',
-            [nome, email, senha, perfil]
+            [nome, email, senhaCript, perfil]
         );
 
-        res.status(201).json({ id: resultado.insertId });
     } catch (err) {
         const status = err.code === 'ER_DUP_ENTRY' ? 409 : 500;
         const mensagem = status === 409 ? 'E-mail já cadastrado.' : 'Erro ao registrar usuário.';
@@ -37,12 +40,18 @@ const login = async (req, res) => {
             [email]
         );
 
-        if (rows.length === 0 || senha !== rows[0].senha) {
+        if (rows.length === 0) {
             return res.status(401).json({ erro: 'Email ou senha inválidos.' });
         }
 
         const usuario = rows[0];
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+        if (!senhaCorreta) {
+            return res.status(401).json({ erro: 'Email ou senha inválidos. '})
+        }
+
         res.json({ id: usuario.id, perfil: usuario.perfil });
+
     } catch (err) {
         res.status(500).json({ erro: 'Erro ao fazer login.' });
     }

@@ -14,7 +14,7 @@ const permitirBibliotecario = (req, res, next) => {
 
 const permitirLeitor = (req, res, next) => {
     if (req.session.usuario.perfil !== 'leitor') {
-        return res.status(403).json({ erro: 'Acesso restrito a leitores.' });
+        return res.status(403).json({ erro: 'Acesso restrito a usuários.' });
     }
     next();
 };

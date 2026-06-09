@@ -1,11 +1,30 @@
 const db = require('../config/database');
 
 const listarTodos = async (req, res) => {
-    // Exibe todos os empréstimos cadastrados do sistema para o painel de gerenciamento [cite: 92]
-};
+    try {
+        const [emprestimos] = await db.execute(
+            'SELECT * FROM emprestimos');
+        res.json(emprestimos);
+    
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ erro: 'Erro ao listar empréstimos.' });
+    }};
 
 const listarPorUsuario = async (req, res) => {
-    // Retorna os empréstimos ativos vinculados ao leitor logado [cite: 38, 99]
+    const { idUsuario } = req.params;
+
+        try {
+        const [rows] = await db.execute(
+            'SELECT e.id, e.data_emprestimo, e.data_devolucao_prevista, l.titulo FROM emprestimos e INNER JOIN livros l ON e.livro_id = l.id WHERE e.usuario_id = ?',
+            [idUsuario]
+        );
+        res.json(rows);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ erro: 'Erro ao buscar empréstimos do usuário.'});
+    }
 };
 
 const solicitarEmprestimo = async (req, res) => {
