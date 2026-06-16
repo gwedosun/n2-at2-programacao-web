@@ -32,6 +32,8 @@ CREATE TABLE emprestimos (
     FOREIGN KEY (leitor_id) REFERENCES usuarios(id)
 );
 
+ALTER TABLE usuarios ADD CONSTRAINT unique_email UNIQUE (email);
+
 -- Dados iniciais para teste
 
 INSERT INTO usuarios (nome, email, senha, perfil) VALUES
@@ -41,7 +43,6 @@ INSERT INTO usuarios (nome, email, senha, perfil) VALUES
 ('Roberto Almeida Costa', 'roberto@email.com', 'senha123', 'leitor'),
 ('Mariana Souza Pereira', 'mariana@email.com', 'senha123', 'leitor');
 
-INSERT INTO livros (titulo, autor, ano_publicacao, quantidade_disponivel) VALUES
 INSERT INTO livros (titulo, autor, ano_publicacao, quantidade_disponivel) VALUES
 ('Dom Casmurro', 'Machado de Assis', 1899, 5),
 ('Memórias Póstumas de Brás Cubas', 'Machado de Assis', 1881, 3),
