@@ -57,7 +57,17 @@ const login = async (req, res) => {
     }
 };
 
+const logout = async (req, res) => {
+    try {
+        res.json({ msg: 'Logout realizado.'});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ erro: 'Erro ao fazer logout.'})
+    }
+}
+
 module.exports = {
     registrar,
-    login
+    login,
+    logout
 };
