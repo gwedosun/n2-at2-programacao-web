@@ -24,8 +24,10 @@ const buscarPorId = async (req, res) => {
         if (rows.length === 0) {
             return res.status(404).json({ erro: 'Livro não encontrado.'});
         }
-        const livro = rows[0];
-        res.json(livro);
+        // const livro = rows[0];
+        // res.json(livro);
+
+        return res.json(rows[0]);
 
     } catch (err) {
         console.log(err);
@@ -42,9 +44,12 @@ const criar = async (req, res) => {
         }
 
         const [resultado] = await db.execute(
-            'INSERT INTO livros (titulo, autor, ano_publicacao, quantidade_disponivel) VALUES ?, ?, ?, ?',
+            'INSERT INTO livros (titulo, autor, ano_publicacao, quantidade_disponivel) VALUES (?, ?, ?, ?)',
             [titulo, autor, ano_publicacao, quantidade_disponivel]
-        )
+        );
+        
+        return res.status(201).json({ mensagem: 'Livro adicionado com sucesso!' });
+
     } catch (err) {
         console.log(err);
         res.status(500).json({ erro: 'Erro ao adicionar livro.' });

@@ -12,17 +12,18 @@ const listarTodos = async (req, res) => {
     }};
 
 const listarPorUsuario = async (req, res) => {
-    const { idUsuario } = req.usuario.id;
+    try {
+        const idUsuario = req.session.usuario.id; 
 
-        try {
-            const [rows] = await db.execute(
-                'SELECT e.id, e.data_emprestimo, e.data_devolucao_prevista, l.titulo, e.status FROM emprestimos e INNER JOIN livros l ON e.livro_id = l.id WHERE e.leitor_id = ?',
-                [idUsuario]
-            );
-            res.json(rows);
+        const [rows] = await db.execute(
+            'SELECT e.id, e.data_emprestimo, e.data_devolucao_prevista, l.titulo, e.status FROM emprestimos e INNER JOIN livros l ON e.livro_id = l.id WHERE e.leitor_id = ?', // Mantém e.leitor_id
+            [idUsuario]
+        );
+        
+        return res.json(rows);
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).json({ erro: 'Erro ao buscar empréstimos do usuário.'});
     }
 };

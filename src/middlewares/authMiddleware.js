@@ -2,6 +2,9 @@ const verificarAutenticacao = (req, res, next) => {
     if (!req.session || !req.session.usuario) {
         return res.status(401).json({ erro: 'Não autenticado. Faça login.' });
     }
+
+    req.usuario = req.session.usuario;
+
     next();
 };
 
