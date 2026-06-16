@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
 const registrar = async (req, res) => {
