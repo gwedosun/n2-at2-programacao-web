@@ -1,16 +1,21 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
-const database = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'sua_senha',
-    database: 'inserir_nome', 
-    port: '3000'
-});
+let database;
 
-database.connect(err => {
-    if (err) throw err;
-    console.log('Conectado ao banco de dados.')
-})
+async function conectar() {
+    database = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'SistBiblioteca',
+        port: '3306'
+    });
+    console.log('Conectado ao banco de dados.');
+    return database;
+}
 
-module.exports = database;
+conectar();
+
+module.exports = {
+    execute: (...args) => database.execute(...args)
+};

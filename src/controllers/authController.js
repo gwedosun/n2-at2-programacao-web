@@ -1,11 +1,13 @@
-const db = require('../config/database');
+const db = require('../config/database.js');
 const bcrypt = require('bcrypt');
+
 
 const registrar = async (req, res) => {
     const { nome, email, senha, perfil } = req.body;
 
     if (!nome || !email || !senha || !perfil) {
         return res.status(400).json({ erro: 'Todos os campos são obrigatórios.' });
+
     }
     if (!['bibliotecario', 'leitor'].includes(perfil)) {
         return res.status(400).json({ erro: 'Perfil inválido.' });
@@ -19,8 +21,10 @@ const registrar = async (req, res) => {
             'INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?, ?, ?, ?)',
             [nome, email, senhaCript, perfil]
         );
+        res.status(201).json({ mensagem: 'Usuário criado com sucesso!', id: resultado.insertId });
 
     } catch (err) {
+        console.error('ERRO AO REGISTRAR:', err);
         const status = err.code === 'ER_DUP_ENTRY' ? 409 : 500;
         const mensagem = status === 409 ? 'E-mail já cadastrado.' : 'Erro ao registrar usuário.';
         res.status(status).json({ erro: mensagem });
@@ -36,7 +40,7 @@ const login = async (req, res) => {
 
     try {
         const [rows] = await db.execute(
-            'SELECT id, nome, perfil, senha FROM usuarios WHERE email = ?',
+            'SELECT id_user, nome, perfil, senha FROM usuarios WHERE email = ?',
             [email]
         );
 
@@ -53,6 +57,7 @@ const login = async (req, res) => {
         res.json({ id: usuario.id, perfil: usuario.perfil });
 
     } catch (err) {
+        console.error('ERRO AO FAZER LOGIN:', err);
         res.status(500).json({ erro: 'Erro ao fazer login.' });
     }
 };

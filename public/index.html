@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papirum — Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+
+            <div class="auth-header">
+                <div class="brand">
+                    <span class="brand-icon">+</span>
+                    <h1>Papirum</h1>
+                </div>
+                <h2>Acesse sua Conta</h2>
+                <p class="subtitle">Tenha acesso a uma vasta variedade literária</p>
+            </div>
+
+            <form id="login-form" class="settings-form">
+                <div class="form-group">
+                    <label for="login-email">E-mail:</label>
+                    <input type="email" id="login-email" placeholder="seu.email@exemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Senha:</label>
+                    <input type="password" id="login-password" placeholder="Digite sua senha" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; padding: 14px; margin-top: 6px;">
+                    Entrar no Banco
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Nao tem uma conta? <a href="cadastro.html" class="auth-link">Cadastre-se aqui</a></p>
+            </div>
+
+            <div class="aviso-medico">
+                O Papirum não se limita quando quer entregar literatura a todos.
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
