@@ -4,12 +4,12 @@ nodejs & mysql
 # instale as dependencias do projeto
 ## crie o .env
 na raiz do projeto e adicione:
-`DB_HOST=localhost`
-`DB_USER=root`
-`DB_PASS=SUA_SENHA_DO_MYSQL`
-`DB_NAME=sistBiblioteca`
-`DB_PORT=3306`
-`PORT=3000`
+`DB_HOST=localhost` <br>
+`DB_USER=root` <br>
+`DB_PASS=SUA_SENHA_DO_MYSQL` <br>
+`DB_NAME=sistBiblioteca` <br>
+`DB_PORT=3306` <br>
+`PORT=3000` <br>
 
 # abra o mysql workbench e execute o schema.sql
 
