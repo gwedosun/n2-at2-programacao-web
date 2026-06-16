@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamilyCare — Painel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="avatar" id="profile-avatar">F</div>
+                <div class="profile-info">
+                    <h3 id="profile-name-display">Carregando...</h3>
+                    <p id="profile-role-display">FamilyCare</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/home" class="active">Painel</a>
+                <a href="/estatistica">Estatisticas</a>
+                <a href="/configuracoes">Configuracoes</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout">Sair</button>
+            </div>
+        </aside>
+
+        <!-- Conteudo principal -->
+        <main class="main-content">
+
+            <!-- Header do dia -->
+            <div class="schedule-header">
+                <div>
+                    <h2 id="selected-date-title">Hoje</h2>
+                    <p class="subtitle" id="selected-date-subtitle">Consultas e tarefas do dia</p>
+                </div>
+                <button id="open-modal-btn" class="btn-primary">Nova Consulta</button>
+            </div>
+
+            <!-- Cards de resumo rapido -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <span class="summary-value" id="summary-total">0</span>
+                    <span class="summary-label">Total hoje</span>
+                </div>
+                <div class="summary-card success">
+                    <span class="summary-value" id="summary-feito">0</span>
+                    <span class="summary-label">Concluidos</span>
+                </div>
+                <div class="summary-card warning">
+                    <span class="summary-value" id="summary-afazer">0</span>
+                    <span class="summary-label">A fazer</span>
+                </div>
+                <div class="summary-card danger">
+                    <span class="summary-value" id="summary-pendente">0</span>
+                    <span class="summary-label">Pendentes</span>
+                </div>
+            </div>
+
+            <!-- Lista de consultas do dia -->
+            <div class="section-label">Consultas do dia selecionado</div>
+            <div id="appointments-list" class="appointments-list"></div>
+
+        </main>
+
+        <!-- Calendario lateral -->
+        <aside class="calendar-sidebar">
+            <div class="mini-calendar">
+                <div class="calendar-header">
+                    <button id="prev-month">&lt;</button>
+                    <h3 id="month-year-display">Junho 2026</h3>
+                    <button id="next-month">&gt;</button>
+                </div>
+                <div class="weekdays">
+                    <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+            </div>
+
+            <!-- Proximas consultas (visao geral) -->
+            <div class="upcoming-section">
+                <div class="section-label" style="margin-bottom: 12px;">Proximas consultas</div>
+                <ul id="upcoming-list" class="upcoming-list"></ul>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Modal: Nova / Editar Consulta -->
+    <div id="appointment-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h3 id="modal-title">Nova Consulta</h3>
+            <form id="appointment-form" class="settings-form">
+                <input type="hidden" id="edit-id">
+
+                <div class="form-group">
+                    <label for="app-title">Titulo: *</label>
+                    <input type="text" id="app-title" placeholder="Ex: Retorno Cardiologista, Exame de Sangue" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="app-tipo">Tipo: *</label>
+                        <select id="app-tipo" required>
+                            <option value="">Selecione...</option>
+                            <option value="Consulta">Consulta</option>
+                            <option value="Exame">Exame</option>
+                            <option value="Medicamento">Medicamento</option>
+                            <option value="Fisioterapia">Fisioterapia</option>
+                            <option value="Cirurgia">Cirurgia</option>
+                            <option value="Vacina">Vacina</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-time">Horario: *</label>
+                        <input type="time" id="app-time" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="app-agent">Medico / Local:</label>
+                    <input type="text" id="app-agent" placeholder="Ex: Dr. Diego, Hospital Sao Lucas">
+                </div>
+
+                <div class="form-group">
+                    <label for="app-responsible">Responsavel pelo acompanhamento:</label>
+                    <input type="text" id="app-responsible" placeholder="Quem vai acompanhar o paciente">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="app-pending">
+                    <label for="app-pending">Ha exames ou documentos pendentes?</label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="aviso-medico-footer">O FamilyCare nao realiza diagnosticos medicos nem substitui acompanhamento profissional de saude.</div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
