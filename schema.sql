@@ -1,46 +1,35 @@
--- Criar banco de dados
-CREATE DATABASE IF NOT EXISTS biblioteca;
-USE biblioteca;
+create schema sistBiblioteca;
+use sistBiblioteca;
 
--- Tabela: usuarios
-CREATE TABLE IF NOT EXISTS usuarios (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL, -- Aumentado para hash seguro
-    perfil ENUM('bibliotecario', 'leitor') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- Tabela de Usuários
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    perfil ENUM('bibliotecario', 'leitor') NOT NULL
 );
 
--- Tabela: livros
-CREATE TABLE IF NOT EXISTS livros (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(200) NOT NULL,
-    autor VARCHAR(100) NOT NULL,
+-- Tabela de Livros
+CREATE TABLE livros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    autor VARCHAR(255) NOT NULL,
     ano_publicacao INT,
-    quantidade_disponivel INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CHECK (quantidade_disponivel >= 0)
+    quantidade_disponivel INT NOT NULL
 );
 
--- Tabela: emprestimos
-CREATE TABLE IF NOT EXISTS emprestimos (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+-- Tabela de Empréstimos
+CREATE TABLE emprestimos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     livro_id INT NOT NULL,
     leitor_id INT NOT NULL,
     data_emprestimo DATE NOT NULL,
     data_devolucao_prevista DATE NOT NULL,
     data_devolucao_real DATE,
-    status ENUM('ativo', 'devolvido', 'atrasado') DEFAULT 'ativo',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (livro_id) REFERENCES livros(id) ON DELETE RESTRICT,
-    FOREIGN KEY (leitor_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    INDEX idx_status (status),
-    INDEX idx_leitor (leitor_id),
-    INDEX idx_livro (livro_id)
+    status ENUM('ativo', 'devolvido', 'atrasado') NOT NULL,
+    FOREIGN KEY (livro_id) REFERENCES livros(id),
+    FOREIGN KEY (leitor_id) REFERENCES usuarios(id)
 );
 
 -- Dados iniciais para teste
@@ -75,40 +64,22 @@ INSERT INTO livros (titulo, autor, ano_publicacao, quantidade_disponivel) VALUES
 ('Python para Análise de Dados', 'Wes McKinney', 2017, 4),
 ('JavaScript: O Guia Definitivo', 'David Flanagan', 2020, 3);
 
--- Inserir alguns empréstimos de exemplo
 INSERT INTO emprestimos (livro_id, leitor_id, data_emprestimo, data_devolucao_prevista, status) VALUES
--- Empréstimos ativos
-(1, 2, '2024-11-01', '2024-11-15', 'ativo'),
-(4, 2, '2024-11-05', '2024-11-19', 'ativo'),
-(8, 2, '2024-11-10', '2024-11-24', 'ativo'),
-(3, 3, '2024-11-02', '2024-11-16', 'ativo'),
-(7, 3, '2024-11-08', '2024-11-22', 'ativo'),
-(15, 3, '2024-11-12', '2024-11-26', 'ativo'),
-(9, 4, '2024-11-03', '2024-11-17', 'ativo'),
-(13, 4, '2024-10-25', '2024-11-08', 'ativo'),
-(10, 4, '2024-10-20', '2024-11-03', 'ativo');
+-- Empréstimos Realmente Ativos (Dentro do prazo atual)
+(1, 2, '2026-06-10', '2026-06-24', 'ativo'),
+(4, 2, '2026-06-12', '2026-06-26', 'ativo'),
+(3, 3, '2026-06-11', '2026-06-25', 'ativo'),
+(7, 3, '2026-06-14', '2026-06-28', 'ativo'),
+(9, 4, '2026-06-13', '2026-06-27', 'ativo'),
 
+-- Empréstimos Atrasados (Passaram da data prevista e não têm data_devolucao_real)
+(8, 2, '2026-05-10', '2026-05-24', 'atrasado'),
+(15, 3, '2026-05-12', '2026-05-26', 'atrasado'),
+(13, 4, '2026-05-15', '2026-05-29', 'atrasado'),
+(10, 4, '2026-05-20', '2026-06-03', 'atrasado');
+
+-- Empréstimos já Devolvidos (Com a data_devolucao_real preenchida)
 INSERT INTO emprestimos (livro_id, leitor_id, data_emprestimo, data_devolucao_prevista, data_devolucao_real, status) VALUES
-(5, 5, '2024-10-15', '2024-10-29', '2024-10-28', 'devolvido'),
-(11, 5, '2024-10-20', '2024-11-03', '2024-11-01', 'devolvido'),
-(16, 2, '2024-10-10', '2024-10-24', '2024-10-22', 'devolvido');
-
--- View para listar empréstimos com detalhes (útil para queries)
-CREATE OR REPLACE VIEW vw_emprestimos_detalhes AS
-SELECT 
-    e.id,
-    l.titulo as livro_titulo,
-    l.autor as livro_autor,
-    u.nome as leitor_nome,
-    u.email as leitor_email,
-    e.data_emprestimo,
-    e.data_devolucao_prevista,
-    e.data_devolucao_real,
-    e.status,
-    CASE 
-        WHEN e.status = 'ativo' AND e.data_devolucao_prevista < CURDATE() THEN 'atrasado'
-        ELSE e.status
-    END as status_atual
-FROM emprestimos e
-JOIN livros l ON e.livro_id = l.id
-JOIN usuarios u ON e.leitor_id = u.id;
+(5, 5, '2026-05-15', '2026-05-29', '2026-05-28', 'devolvido'),
+(11, 5, '2026-05-20', '2026-06-03', '2026-06-01', 'devolvido'),
+(16, 2, '2026-05-10', '2026-05-24', '2026-05-22', 'devolvido');
