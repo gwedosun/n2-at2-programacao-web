@@ -1,6 +1,5 @@
 ## pre requisitos
-# nodejs
-# mysql
+nodejs & mysql
 
 ## instale as dependencias do projeto
 # crie o .env
