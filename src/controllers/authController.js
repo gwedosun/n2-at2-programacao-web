@@ -20,6 +20,8 @@ const registrar = async (req, res) => {
             [nome, email, senhaCript, perfil]
         );
 
+        return res.status(201).json({ msg: 'Usuário registrado com sucesso.'})
+
     } catch (err) {
         const status = err.code === 'ER_DUP_ENTRY' ? 409 : 500;
         const mensagem = status === 409 ? 'E-mail já cadastrado.' : 'Erro ao registrar usuário.';
@@ -49,6 +51,12 @@ const login = async (req, res) => {
         if (!senhaCorreta) {
             return res.status(401).json({ erro: 'Email ou senha inválidos. '})
         }
+
+        req.session.usuario = { 
+            id: usuario.id, 
+            nome: usuario.nome, 
+            perfil: usuario.perfil 
+        };
 
         res.json({ id: usuario.id, perfil: usuario.perfil });
 

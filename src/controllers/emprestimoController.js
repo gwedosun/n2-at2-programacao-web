@@ -12,7 +12,7 @@ const listarTodos = async (req, res) => {
     }};
 
 const listarPorUsuario = async (req, res) => {
-    const { idUsuario } = req.params;
+    const { idUsuario } = req.usuario.id;
 
         try {
             const [rows] = await db.execute(
