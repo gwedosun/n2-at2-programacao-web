@@ -7,6 +7,7 @@ const listarTodos = async (req, res) => {
         res.json(livros);
     
     } catch (err) {
+        console.error('ERRO AO FAZER LISTAGEM:', err);
         console.log(err);
         res.status(500).json({ erro: 'Erro ao listar livros.' });
     }
@@ -30,6 +31,7 @@ const buscarPorId = async (req, res) => {
         return res.json(rows[0]);
 
     } catch (err) {
+        console.error('ERRO AO FAZER BUSCA:', err);
         console.log(err);
         res.status(500).json({ erro: 'Erro ao buscar o livro.'});
     }
@@ -51,6 +53,7 @@ const criar = async (req, res) => {
         return res.status(201).json({ mensagem: 'Livro adicionado com sucesso!' });
 
     } catch (err) {
+        console.error('ERRO AO FAZER LOGIN:', err);
         console.log(err);
         res.status(500).json({ erro: 'Erro ao adicionar livro.' });
     }
@@ -76,6 +79,7 @@ const atualizar = async (req, res) => {
         res.json({ mensagem: 'Livro atualizado com sucesso!' });
 
     } catch (err) {
+        console.error('ERRO AO FAZER ATUALIZAÇÃO:', err);
         console.log(err);
         res.status(500).json({ erro: 'Erro ao atualizar livro.'})
     }
@@ -96,6 +100,7 @@ const deletar = async (req, res) => {
         res.json({ mensagem: 'Livro removido com sucesso.' });
         
     } catch (err) {
+        console.error('ERRO AO DELETAR:', err);
         console.error(err);
         res.status(500).json({ erro: 'Erro ao deletar livro.' });
     }

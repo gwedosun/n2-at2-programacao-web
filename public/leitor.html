@@ -3,150 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FamilyCare — Painel</title>
+    <title>Paryrum — Painel do Leitor</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/home.css">
+    <style>
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .data-table th, .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table th {
+            background-color: var(--bg-sidebar);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .data-table td {
+            color: var(--text-primary);
+            font-size: 0.88rem;
+        }
+        .data-table tbody tr:hover {
+            background-color: var(--card-hover);
+        }
+        .btn-solicitar-table {
+            background: rgba(79,142,247,0.15);
+            color: var(--accent-light);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .btn-solicitar-table:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
+    <div class="main-content">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="profile-section">
-                <div class="avatar" id="profile-avatar">F</div>
-                <div class="profile-info">
-                    <h3 id="profile-name-display">Carregando...</h3>
-                    <p id="profile-role-display">FamilyCare</p>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <a href="/home" class="active">Painel</a>
-                <a href="/estatistica">Estatisticas</a>
-                <a href="/configuracoes">Configuracoes</a>
-            </nav>
-            <div class="sidebar-footer">
-                <button id="logout-btn" class="btn-logout">Sair</button>
-            </div>
-        </aside>
-
-        <!-- Conteudo principal -->
         <main class="main-content">
 
-            <!-- Header do dia -->
+            <button id="logout-btn" class="btn-logout" style="width: auto; position: absolute; top: 15px; right: 63px; padding: 8px 16px;">
+                Sair
+            </button>
+
             <div class="schedule-header">
                 <div>
-                    <h2 id="selected-date-title">Hoje</h2>
-                    <p class="subtitle" id="selected-date-subtitle">Consultas e tarefas do dia</p>
+                    <h2>Biblioteca Paryrum</h2>
+                    <p class="subtitle">Gerencie suas leituras e prazos de devolução</p>
                 </div>
-                <button id="open-modal-btn" class="btn-primary">Nova Consulta</button>
+                <button id="btn-novo-emprestimo-principal" class="btn-primary" style="background-color: var(--success);">
+                    + Solicitar Novo Empréstimo
+                </button>
             </div>
 
-            <!-- Cards de resumo rapido -->
             <div class="summary-cards">
                 <div class="summary-card">
-                    <span class="summary-value" id="summary-total">0</span>
-                    <span class="summary-label">Total hoje</span>
+                    <span class="summary-value" id="total-emprestados">0</span>
+                    <span class="summary-label">Emprestados</span>
                 </div>
                 <div class="summary-card success">
-                    <span class="summary-value" id="summary-feito">0</span>
-                    <span class="summary-label">Concluidos</span>
-                </div>
-                <div class="summary-card warning">
-                    <span class="summary-value" id="summary-afazer">0</span>
-                    <span class="summary-label">A fazer</span>
+                    <span class="summary-value" id="total-devolvidos">0</span>
+                    <span class="summary-label">Lidos / Devolvidos</span>
                 </div>
                 <div class="summary-card danger">
-                    <span class="summary-value" id="summary-pendente">0</span>
-                    <span class="summary-label">Pendentes</span>
+                    <span class="summary-value" id="total-atrasados">0</span>
+                    <span class="summary-label">Em Atraso</span>
                 </div>
             </div>
 
-            <!-- Lista de consultas do dia -->
-            <div class="section-label">Consultas do dia selecionado</div>
-            <div id="appointments-list" class="appointments-list"></div>
+            <div class="settings-card" style="margin-top: 2rem;">
+                <div class="section-label">Meus Empréstimos Atuais</div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID Empréstimo</th>
+                                <th>Livro Emprestado</th>
+                                <th>Data Empréstimo</th>
+                                <th>Devolução Prevista</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="meus-emprestimos-list">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            
+
+            <div class="settings-card" style="margin-top: 2rem;">
+                <div class="section-label">Livros Disponíveis no Catálogo</div>
+                <div class="form-group textarea">
+                <input type="text" id="busca-catalogo" placeholder="Buscar por título ou autor..." class="search-input">
+        </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Ano</th>
+                                <th>Disponível</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="catalogo-livros-list">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
 
         </main>
-
-        <!-- Calendario lateral -->
-        <aside class="calendar-sidebar">
-            <div class="mini-calendar">
-                <div class="calendar-header">
-                    <button id="prev-month">&lt;</button>
-                    <h3 id="month-year-display">Junho 2026</h3>
-                    <button id="next-month">&gt;</button>
-                </div>
-                <div class="weekdays">
-                    <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
-                </div>
-                <div id="calendar-grid" class="calendar-grid"></div>
-            </div>
-
-            <!-- Proximas consultas (visao geral) -->
-            <div class="upcoming-section">
-                <div class="section-label" style="margin-bottom: 12px;">Proximas consultas</div>
-                <ul id="upcoming-list" class="upcoming-list"></ul>
-            </div>
-        </aside>
-
     </div>
 
-    <!-- Modal: Nova / Editar Consulta -->
-    <div id="appointment-modal" class="modal">
+    <div id="modal-emprestimo" class="modal">
         <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <h3 id="modal-title">Nova Consulta</h3>
-            <form id="appointment-form" class="settings-form">
-                <input type="hidden" id="edit-id">
-
+            <button class="close-modal" id="btn-fechar-modal-x">&times;</button>
+            <h3>Solicitar Novo Empréstimo</h3>
+            
+            <form id="form-solicitar-emprestimo" class="settings-form">
+                
                 <div class="form-group">
-                    <label for="app-title">Titulo: *</label>
-                    <input type="text" id="app-title" placeholder="Ex: Retorno Cardiologista, Exame de Sangue" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="app-tipo">Tipo: *</label>
-                        <select id="app-tipo" required>
-                            <option value="">Selecione...</option>
-                            <option value="Consulta">Consulta</option>
-                            <option value="Exame">Exame</option>
-                            <option value="Medicamento">Medicamento</option>
-                            <option value="Fisioterapia">Fisioterapia</option>
-                            <option value="Cirurgia">Cirurgia</option>
-                            <option value="Vacina">Vacina</option>
-                            <option value="Outro">Outro</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="app-time">Horario: *</label>
-                        <input type="time" id="app-time" required>
-                    </div>
+                    <label for="modal-livro-select">Selecione o Livro: *</label>
+                    <select id="modal-livro-select" required>
+                        <option value="">-- Escolha um livro --</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="app-agent">Medico / Local:</label>
-                    <input type="text" id="app-agent" placeholder="Ex: Dr. Diego, Hospital Sao Lucas">
+                    <label for="modal-data-prevista">Data de Devolução Prevista: *</label>
+                    <input type="date" id="modal-data-prevista" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="app-responsible">Responsavel pelo acompanhamento:</label>
-                    <input type="text" id="app-responsible" placeholder="Quem vai acompanhar o paciente">
+                <div class="form-row" style="margin-top: 10px;">
+                    <button type="button" id="btn-fechar-modal" class="btn-danger" style="background: transparent; border: 1px solid var(--border); color: var(--text-muted);">Cancelar</button>
+                    <button type="submit" class="btn-primary">Confirmar</button>
                 </div>
-
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="app-pending">
-                    <label for="app-pending">Ha exames ou documentos pendentes?</label>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width: 100%;">Salvar</button>
             </form>
         </div>
     </div>
 
-    <div class="aviso-medico-footer">O FamilyCare nao realiza diagnosticos medicos nem substitui acompanhamento profissional de saude.</div>
-
-    <script src="/js/api.js"></script>
-    <script src="/js/script.js"></script>
+    <script src="/js/leitor.js"></script>
 </body>
 </html>

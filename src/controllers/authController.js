@@ -23,12 +23,13 @@ const registrar = async (req, res) => {
         return res.status(201).json({ msg: 'Usuário registrado com sucesso.'})
 
     } catch (err) {
+        console.error('ERRO AO FAZER REGISTRO:', err);
         const status = err.code === 'ER_DUP_ENTRY' ? 409 : 500;
         const mensagem = status === 409 ? 'E-mail já cadastrado.' : 'Erro ao registrar usuário.';
         res.status(status).json({ erro: mensagem });
     }
 };
-
+//===
 const login = async (req, res) => {
     const { email, senha } = req.body;
 
@@ -37,6 +38,7 @@ const login = async (req, res) => {
     }
 
     try {
+        // Busca o ID correto vindo da tabela (id)
         const [rows] = await db.execute(
             'SELECT id, nome, perfil, senha FROM usuarios WHERE email = ?',
             [email]
@@ -49,26 +51,36 @@ const login = async (req, res) => {
         const usuario = rows[0];
         const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
         if (!senhaCorreta) {
-            return res.status(401).json({ erro: 'Email ou senha inválidos. '})
+            return res.status(401).json({ erro: 'Email ou senha inválidos.' })
         }
 
+        // Padrão de sessão usando .id para casar com o controller de empréstimos
         req.session.usuario = { 
             id: usuario.id, 
             nome: usuario.nome, 
             perfil: usuario.perfil 
         };
 
-        res.json({ id: usuario.id, perfil: usuario.perfil });
+        // Retorna exatamente a estrutura que o seu login.js espera
+        res.json({ 
+            usuario: {
+                id: usuario.id,
+                nome: usuario.nome,
+                perfil: usuario.perfil
+            }
+        });
 
     } catch (err) {
+        console.error('ERRO AO FAZER LOGIN:', err);
         res.status(500).json({ erro: 'Erro ao fazer login.' });
     }
 };
-
+//===
 const logout = async (req, res) => {
     try {
         res.json({ msg: 'Logout realizado.'});
     } catch (err) {
+        console.error('ERRO AO FAZER LOGOUT:', err);
         console.log(err);
         res.status(500).json({ erro: 'Erro ao fazer logout.'})
     }

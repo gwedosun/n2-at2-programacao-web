@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papirum — Cadastro</title>
+    <title>Paryrum — Cadastro</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/login.css">
 </head>
@@ -15,7 +15,7 @@
             <div class="auth-header">
                 <div class="brand">
                     <span class="brand-icon">+</span>
-                    <h1>Papirum</h1>
+                    <h1>Paryrum</h1>
                 </div>
                 <h2>Crie sua Conta</h2>
                 <p class="subtitle">E tenha acesso a uma vasta variedade literária</p>
@@ -35,8 +35,12 @@
                     <input type="password" id="reg-password" placeholder="No minimo 6 caracteres" minlength="6" required>
                 </div>
                 <div class="form-group">
-                    <label for="reg-email">Tipo de Perfil:</label>
-                    <input type="text" id="reg-perfil" placeholder="Leitor / Bibliotecario" required>
+                    <label for="reg-perfil">Tipo de Perfil:</label>
+                    <select name="reg-perfil" id="reg-perfil" required>
+                        <option value="" disabled selected>Selecione uma opção</option>
+                        <option value="leitor">Leitor</option>
+                        <option value="bibliotecario">Bibliotecário</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%; padding: 14px;">
                     Criar conta
@@ -45,6 +49,10 @@
 
             <div class="auth-footer">
                 <p>Ja tem uma conta? <a href="/" class="auth-link">Faca login aqui</a></p>
+
+                <div class="aviso-medico">
+                    O Paryrum não se limita quando quer entregar literatura a todos.
+                </div>
             </div>
 
         </div>

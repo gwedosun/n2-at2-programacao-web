@@ -14,7 +14,16 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
     
     if (res.ok) {
         alert('Bem vindo!');
-        window.location.href = '/bibliotecario.html';
+        
+        sessionStorage.setItem('userAuthenticated', 'true');
+        sessionStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+        // Redirecionamento inteligente baseado no perfil do banco de dados
+        if (data.usuario.perfil === 'bibliotecario') {
+            window.location.href = '/bibliotecario.html';
+        } else {
+            window.location.href = '/leitor.html';
+        }
     } else {
         alert('Erro: ' + data.erro);
     }

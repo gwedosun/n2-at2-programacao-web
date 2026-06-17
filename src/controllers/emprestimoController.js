@@ -2,14 +2,20 @@ const db = require('../config/database');
 
 const listarTodos = async (req, res) => {
     try {
-        const [emprestimos] = await db.execute(
-            'SELECT * FROM emprestimos');
+        const [emprestimos] = await db.execute(`
+            SELECT e.id, e.leitor_id, u.nome AS nome_leitor,
+                   e.livro_id, l.titulo AS titulo_livro,
+                   e.data_emprestimo, e.data_devolucao_prevista, e.status
+            FROM emprestimos e
+            INNER JOIN usuarios u ON e.leitor_id = u.id
+            INNER JOIN livros l ON e.livro_id = l.id
+        `);
         res.json(emprestimos);
-    
     } catch (err) {
         console.log(err);
         res.status(500).json({ erro: 'Erro ao listar empréstimos.' });
-    }};
+    }
+};
 
 const listarPorUsuario = async (req, res) => {
     try {
