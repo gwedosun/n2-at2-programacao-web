@@ -1,6 +1,6 @@
 Integrantes: Beatriz Evangelista, Gabriella Braga e Keven Régio. <br> <br>
 # Sobre o projeto
-Sistema web completo para gerenciamento de empréstimos de livros em uma biblioteca, desenvolvido como trabalho acadêmico para a disciplina de Programação para Web.
+Sistema web completo para gerenciamento de empréstimos de livros em uma biblioteca, desenvolvido como trabalho acadêmico para a disciplina de Programação Web, do semestre 2026.1 do curso Bacharelado em Ciência da Computação da Universidade Católica de Brasília.
 <br>
 O sistema conta com dois perfis de usuário com permissões distintas: <br>
 Bibliotecário: Responsável por gerenciar o catálogo de livros (CRUD completo) e aprovar devoluções. <br>
