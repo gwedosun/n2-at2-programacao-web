@@ -9,7 +9,7 @@ app.use(express.json());
  
 app.use(session({
     secret: 'senha-da-biblioteca', 
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 } 
 }));

@@ -159,9 +159,15 @@ function abrirModalEmprestimo(idSelecionado = null) {
     const modal = document.getElementById('modal-emprestimo');
     if (!modal) return;
 
+    const inputData = document.getElementById('modal-data-prevista');
+
     const amanha = new Date();
     amanha.setDate(amanha.getDate() + 1);
     document.getElementById('modal-data-prevista').min = amanha.toISOString().split('T')[0];
+
+    const dataDevolucao = new Date();
+    dataDevolucao.setDate(dataDevolucao.getDate() + 14);
+    inputData.value = dataDevolucao.toISOString().split('T')[0];
 
     const selectLivro = document.getElementById('modal-livro-select');
     if (idSelecionado) {
