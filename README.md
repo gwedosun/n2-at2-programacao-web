@@ -7,14 +7,14 @@ Bibliotecário: Responsável por gerenciar o catálogo de livros (CRUD completo)
 Leitor: Pode visualizar livros, solicitar empréstimos e solicitar devoluções. <br>
 
 # Ferramentas utilizadas
-Backend: Node.js | Express | MySQL2 | Express-session | Bcrypt | Dotenv
-Frontend: HTML5 | CSS3 | JavaScript | Fetch API
-Banco de Dados: MySQL 
+Backend: Node.js | Express | MySQL2 | Express-session | Bcrypt | Dotenv <br>
+Frontend: HTML5 | CSS3 | JavaScript | Fetch API <br>
+Banco de Dados: MySQL <br>
 
 # Pré-requisitos
-- Node.js | versão 14 ou superior
-- MySQL | versão 8.0 ou superior
-- NPM
+- Node.js | versão 14 ou superior <br>
+- MySQL | versão 8.0 ou superior <br>
+- NPM <br>
 
 # Instalação e configuração de ambiente
 1. Clone o repositório na sua máquina com <br>
@@ -33,7 +33,7 @@ cd [NOME_DO_PROJETO]`
 `DB_PORT=3306` <br>
 `PORT=3000` <br>
 
-4. Abra o MySQL Workbench e execute o schema.sql
+4. Abra o MySQL Workbench e execute o schema.sql <br>
 (ou use `mysql -u root -p < schema.sql`)
 
 5. Inicie o servidor com <br>
@@ -42,8 +42,8 @@ cd [NOME_DO_PROJETO]`
 ## caso algum pacote não funcione
 instale diretamente `npm install express express-session mysql2 bcrypt dotenv`, além do NODEMON `npm install -g nodemon` para a atualização em tempo real do servidor.
 
-# Sobre a segurança
-- Senhas armazenadas com hash usando bcrypt;
-- Sessões gerenciadas com express-session;
-- Validações de permissão em todas as rotas;
-- Proteção contra SQL Injection
+# Sobre a segurança 
+- Senhas armazenadas com hash usando bcrypt; <br>
+- Sessões gerenciadas com express-session; <br>
+- Validações de permissão em todas as rotas; <br>
+- Proteção contra SQL Injection <br>
