@@ -18,7 +18,6 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         sessionStorage.setItem('userAuthenticated', 'true');
         sessionStorage.setItem('usuario', JSON.stringify(data.usuario));
 
-        // Redirecionamento inteligente baseado no perfil do banco de dados
         if (data.usuario.perfil === 'bibliotecario') {
             window.location.href = '/bibliotecario.html';
         } else {

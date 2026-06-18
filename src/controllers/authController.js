@@ -29,7 +29,7 @@ const registrar = async (req, res) => {
         res.status(status).json({ erro: mensagem });
     }
 };
-//===
+
 const login = async (req, res) => {
     const { email, senha } = req.body;
 
@@ -38,7 +38,6 @@ const login = async (req, res) => {
     }
 
     try {
-        // Busca o ID correto vindo da tabela (id)
         const [rows] = await db.execute(
             'SELECT id, nome, perfil, senha FROM usuarios WHERE email = ?',
             [email]
@@ -54,14 +53,12 @@ const login = async (req, res) => {
             return res.status(401).json({ erro: 'Email ou senha inválidos.' })
         }
 
-        // Padrão de sessão usando .id para casar com o controller de empréstimos
         req.session.usuario = { 
             id: usuario.id, 
             nome: usuario.nome, 
             perfil: usuario.perfil 
         };
 
-        // Retorna exatamente a estrutura que o seu login.js espera
         res.json({ 
             usuario: {
                 id: usuario.id,

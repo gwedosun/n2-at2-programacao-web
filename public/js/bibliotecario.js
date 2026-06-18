@@ -1,4 +1,3 @@
-// Variáveis globais
 let todosEmprestimos = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,13 +17,11 @@ async function initBibliotecario() {
         window.location.href = '/';
     });
 
-    // Eventos do Modal de Livros
     document.getElementById('btn-novo-livro')?.addEventListener('click', () => abrirModalLivro());
     document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModalLivro);
     document.getElementById('btn-fechar-modal-x')?.addEventListener('click', fecharModalLivro);
     document.getElementById('form-livro')?.addEventListener('submit', salvarLivro);
 
-    // Evento de busca de empréstimos
     document.getElementById('busca-emprestimo')?.addEventListener('input', (e) => {
         const termo = e.target.value.toLowerCase();
         const filtrados = todosEmprestimos.filter(emp =>
@@ -34,7 +31,6 @@ async function initBibliotecario() {
         renderizarEmprestimos(filtrados);
     });
 
-    // Carga de dados inicial
     await carregarDadosPainel();
 }
 
@@ -43,9 +39,7 @@ async function carregarDadosPainel() {
     await carregarEmprestimosGeral();
 }
 
-// ==========================================
-// CONTROLADORES DO ACERVO DE LIVROS (CRUD)
-// ==========================================
+
 
 async function carregarLivrosGeral() {
     try {
@@ -153,9 +147,7 @@ async function deletarLivro(id) {
     }
 }
 
-// ==========================================
-// CONTROLADORES DE EMPRÉSTIMOS (GERAL)
-// ==========================================
+// emprestimos
 
 async function carregarEmprestimosGeral() {
     try {

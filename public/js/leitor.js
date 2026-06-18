@@ -15,13 +15,11 @@ async function init() {
 
     usuarioLogado = JSON.parse(usuarioSalvo);
 
-    // Evento de Logout
     document.getElementById('logout-btn')?.addEventListener('click', () => {
         sessionStorage.clear();
         window.location.href = '/';
     });
 
-    // Ouvinte para o Botão Principal superior "+ Solicitar Novo Empréstimo"
     const btnPrincipal = document.getElementById('btn-novo-emprestimo-principal');
     if (btnPrincipal) {
         btnPrincipal.addEventListener('click', () => {
@@ -29,14 +27,11 @@ async function init() {
         });
     }
 
-    // Eventos de Fechamento do Modal (Botão inferior e o 'X' do cabeçalho)
     document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
     document.getElementById('btn-fechar-modal-x')?.addEventListener('click', fecharModal);
     
-    // Evento de envio do formulário
     document.getElementById('form-solicitar-emprestimo')?.addEventListener('submit', enviarSolicitacaoEmprestimo);
 
-    // Carrega os dados nas tabelas
     await carregarDadosPainel();
 
     document.getElementById('busca-catalogo')?.addEventListener('input', (e) => {
@@ -54,7 +49,6 @@ async function carregarDadosPainel() {
     await carregarEmprestimosLeitor();
 }
 
-// 1. CARREGAR TODOS OS LIVROS
 async function carregarCatalogoLivros() {
     try {
         const res = await fetch('/livros', { credentials: 'include' });
@@ -114,7 +108,6 @@ function popularSelectLivros(livros) {
     });
 }
 
-// 2. CARREGAR EMPRÉSTIMOS DO LEITOR
 async function carregarEmprestimosLeitor() {
     try {
         const res = await fetch('/emprestimos/meus-emprestimos', { credentials: 'include' });
@@ -162,7 +155,6 @@ function renderizarEmprestimos(emprestimos) {
     document.getElementById('total-atrasados').textContent = atrasados;
 }
 
-// 3. LOGICA DO MODAL
 function abrirModalEmprestimo(idSelecionado = null) {
     const modal = document.getElementById('modal-emprestimo');
     if (!modal) return;
