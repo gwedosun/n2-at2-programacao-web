@@ -18,8 +18,8 @@ Banco de Dados: MySQL <br>
 
 # Instalação e configuração de ambiente
 1. Clone o repositório na sua máquina com <br>
-`git clone [URL_DO_REPOSITORIO] <br>
-cd [NOME_DO_PROJETO]`
+`git clone [URL_DO_REPOSITORIO]`
+`cd [NOME_DO_PROJETO]`
 
 2. Instale as dependências do projeto com
 `npm install`
